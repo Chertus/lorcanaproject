@@ -9,3 +9,5 @@ beautifulsoup4
 requests
 pytesseract
 Pillow
+pdf2image
+

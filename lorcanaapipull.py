@@ -9,56 +9,69 @@ api_base_url = "https://api.lorcana-api.com/strict/"
 with open("ListofLorcanaCards.txt", "r") as file:
     card_names = file.read().splitlines()
 
-# Initialize a dictionary to store card data
-all_card_data = {}
+# Initialize the new JSON structure
+data_lake = {
+    "cards": [],
+    "rules": {
+        "turnOrder": "",
+        "winConditions": "",
+        "specialRules": []
+    },
+    "interactions": [],
+    "chatbotQA": []
+}
 
 # Create a directory to store card images
 image_dir = "card_images"
 os.makedirs(image_dir, exist_ok=True)
 
-# Loop through each card name, fetch the data, and store it in the dictionary
+def validate_data(data):
+    required_fields = ["type", "body-text", "image-urls"]
+    for field in required_fields:
+        if field not in data:
+            return False
+    return True
+
+def normalize_data(data):
+    # Convert all string data to lowercase for consistency
+    for key in data:
+        if isinstance(data[key], str):
+            data[key] = data[key].lower()
+    return data
+
+def transform_data(data, card_name):
+    # Transform data into the desired structured format for the AI model
+    card_data = {
+        "id": card_name.replace(" ", "_").lower(),
+        "name": card_name,
+        "type": data.get("type", ""),
+        "description": data.get("body-text", ""),
+        "abilities": [],  # Placeholder, modify as needed
+        "image": data.get("image-urls", {}).get("large", ""),
+        "stats": {}  # Placeholder, modify as needed
+    }
+    return card_data
+
+# Loop through each card name and fetch the data
 for card_name in card_names:
-    # Replace spaces with underscores and convert to lowercase
     formatted_card_name = card_name.replace(" ", "_").lower()
-    
-    # Make the API request
     url = f"{api_base_url}{formatted_card_name}"
     response = requests.get(url)
-    
-    # Check if the request was successful (status code 200)
+
     if response.status_code == 200:
-        card_data = response.json()
-        
-        # Verify that both card text and images are present before saving
-        if "body-text" in card_data and "image-urls" in card_data:
-            # Create a subfolder for each card
-            card_dir = os.path.join(image_dir, formatted_card_name)
-            os.makedirs(card_dir, exist_ok=True)
-            
-            # Download the card image and save it in the card's subfolder
-            image_url = card_data.get("image-urls", {}).get("large")
-            if image_url:
-                image_extension = image_url.split(".")[-1]
-                image_filename = f"{formatted_card_name}.{image_extension}"
-                image_path = os.path.join(card_dir, image_filename)
-                with open(image_path, "wb") as image_file:
-                    image_file.write(requests.get(image_url).content)
-                card_data["image_filename"] = image_path
-            
-            # Save the card data in a JSON file within the card's subfolder
-            card_data_path = os.path.join(card_dir, "card_data.json")
-            with open(card_data_path, "w") as json_file:
-                json.dump(card_data, json_file, indent=4)
-            
-            all_card_data[formatted_card_name] = card_data
-        else:
-            print(f"Card data for {card_name} is incomplete and will not be saved.")
-    else:
-        print(f"Failed to fetch data for {card_name}")
+        card_data_api = response.json()
 
-# Save the collected card data as a JSON file
-with open("lorcana_card_data.json", "w") as json_file:
-    json.dump(all_card_data, json_file, indent=4)
+        # Validate, normalize, and transform data
+        if validate_data(card_data_api):
+            normalized_data = normalize_data(card_data_api)
+            transformed_data = transform_data(normalized_data, card_name)
+            data_lake["cards"].append(transformed_data)
 
-print("Card data and images have been fetched and saved with verification.")
+# TODO: Add the extracted rules from the graphics and other resources to the rules section
+
+# Save the cleaned and organized data to data_lake.json
+with open("data_lake.json", "w") as json_file:
+    json.dump(data_lake, json_file, indent=4)
+
+print("Card data has been fetched, cleaned, and saved.")
 

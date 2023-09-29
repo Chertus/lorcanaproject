@@ -3,6 +3,7 @@ from tkinter import ttk
 import threading
 import time
 import random  # This is for simulating the comprehension percentage. You can replace this with actual logic.
+import os
 
 class OrchestratorGUI(tk.Tk):
     def __init__(self):
@@ -15,7 +16,7 @@ class OrchestratorGUI(tk.Tk):
         self.orchestrator_frame = ttk.LabelFrame(self, text="Orchestrator", padding=(10, 5))
         self.orchestrator_frame.pack(padx=10, pady=10, fill=tk.X)
 
-        self.script_names = ["requirements.txt", "image_association.py", "interactions_json.py", "locanaapipull.py", "text_analysis.py", "train_and_export_model.py"]
+        self.script_names = ["requirements.txt", "lorcana_rules_extractor.py", "image_association.py", "interactions_json.py", "locanaapipull.py", "text_analysis.py", "train_and_export_model.py"]
         self.script_status = {name: ttk.Label(self.orchestrator_frame, text=name) for name in self.script_names}
 
         for name, label in self.script_status.items():
@@ -35,8 +36,12 @@ class OrchestratorGUI(tk.Tk):
         self.comprehension_label.pack(pady=10)
 
     def run_script(self, script_name):
-        # Simulate running the script
-        time.sleep(random.randint(2, 5))
+        # Check if the script_name ends with .py to determine if it's a Python script
+        if script_name.endswith(".py"):
+            os.system(f"python {script_name}")
+        # Simulate running for non-Python scripts (like requirements.txt)
+        else:
+            time.sleep(random.randint(2, 5))
         label = self.script_status[script_name]
         label.config(text=script_name + " ✓", foreground="green")
 

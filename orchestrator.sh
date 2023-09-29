@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Create a virtual environment if it doesn't exist
+# Check if the virtual environment exists
 if [ ! -d "lorcana_venv" ]; then
     python3 -m venv lorcana_venv
 fi
