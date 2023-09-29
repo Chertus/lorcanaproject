@@ -3,16 +3,14 @@
 import os
 import json
 import cv2
-import pytesseract
-import tensorflow as tf
 import subprocess
 import importlib
-import numpy as np
-from PIL import Image
-import pytesseract
 import multiprocessing
 import shutil
 import spacy
+from PIL import Image
+import pytesseract
+import tensorflow as tf
 
 # Constants
 REQUIRED_PACKAGES_FILE = "requirements.txt"
@@ -23,10 +21,9 @@ DATA_LAKE_FILE = "data_lake.json"
 SPACY_MODEL_DIR = "spacy_models"
 OBJECT_DETECTION_MODEL_PATH = "fine_tuned_object_detection_model"
 NLP_MODEL_NAME = "en_core_web_sm"
-CONFIDENCE_THRESHOLD_OBJECT_DETECTION = 0.5
-CONFIDENCE_THRESHOLD_NLP = 0.7
+CONFIDENCE_THRESHOLD_OBJECT_DETECTION = 0.9
+CONFIDENCE_THRESHOLD_NLP = 0.9
 
-# Function to check and install prerequisites
 def check_and_install_prerequisites():
     try:
         with open(REQUIRED_PACKAGES_FILE, "r") as req_file:
@@ -44,7 +41,6 @@ def check_and_install_prerequisites():
         print("spaCy is not installed. Installing spaCy...")
         subprocess.run(["pip", "install", "spacy"])
 
-# Function to extract text from an image using Tesseract OCR
 def extract_text_from_image(image_path):
     try:
         image = Image.open(image_path)
@@ -54,8 +50,8 @@ def extract_text_from_image(image_path):
         print(f"Error extracting text from {image_path}: {str(e)}")
         return ""
 
-# Function to process a single card image
-def process_card_image(card_filename, result_queue):
+def process_card_image(args):
+    card_filename, object_detection_model, nlp = args
     card_name = os.path.splitext(card_filename)[0]
     card_path = os.path.join(DATA_DIRECTORY, card_filename)
     card_image = cv2.imread(card_path)
@@ -79,11 +75,14 @@ def process_card_image(card_filename, result_queue):
     # Extract meaningful information from NLP analysis (e.g., card type, abilities)
     card_type = ""
     abilities = []
+    keywords = ["card", "deck", "rules", "player", "strategy", "turn"]
     for token in doc:
-        if token.pos_ == "NOUN":
-            card_type = token.text
-        elif token.pos_ == "VERB":
-            abilities.append(token.text)
+        for keyword in keywords:
+            if token.similarity(nlp(keyword)) >= CONFIDENCE_THRESHOLD_NLP:
+                if token.pos_ == "NOUN":
+                    card_type = token.text
+                elif token.pos_ == "VERB":
+                    abilities.append(token.text)
 
     # Combine extracted information
     card_info = {
@@ -92,15 +91,8 @@ def process_card_image(card_filename, result_queue):
         "abilities": abilities,
     }
     
-    # Write the intermediate result to a temporary file
-    temp_file = os.path.join(OUTPUT_DIRECTORY, f"{card_name}_temp.json")
-    with open(temp_file, "w") as temp_output_file:
-        json.dump(card_info, temp_output_file, indent=4)
-    
-    # Put the temp_file path into the result queue
-    result_queue.put(temp_file)
+    return card_info
 
-# Function to load the spaCy model
 def load_spacy_model():
     spacy_model_dir = os.path.join(SPACY_MODEL_DIR, NLP_MODEL_NAME)
     if not os.path.exists(spacy_model_dir):
@@ -108,7 +100,7 @@ def load_spacy_model():
         exit(1)
     return spacy.load(spacy_model_dir)
 
-if __name__ == "__main__":
+def main():
     check_and_install_prerequisites()
     
     # Create the output directory if it doesn't exist
@@ -122,36 +114,20 @@ if __name__ == "__main__":
     # Initialize object detection model
     object_detection_model = tf.saved_model.load(OBJECT_DETECTION_MODEL_PATH)
     
-    # Load the spaCy model (or download and save it if not available)
+    # Load the spaCy model
     nlp = load_spacy_model()
     
     # Get a list of card filenames to process
     card_filenames = [filename for filename in os.listdir(DATA_DIRECTORY) if filename.endswith(".jpg")]
     
     # Create a multiprocessing pool
-    num_processes = multiprocessing.cpu_count()  # Adjust the number of processes as needed
-    pool = multiprocessing.Pool(processes=num_processes)
+    num_processes = multiprocessing.cpu_count()
+    with multiprocessing.Pool(processes=num_processes) as pool:
+        args_list = [(filename, object_detection_model, nlp) for filename in card_filenames]
+        results = pool.map(process_card_image, args_list)
     
-    # Create a queue for collecting temporary result file paths
-    result_queue = multiprocessing.Queue()
-    
-    # Process card images in parallel
-    for card_filename in card_filenames:
-        pool.apply_async(process_card_image, (card_filename, result_queue))
-    
-    # Close the pool and wait for all processes to complete
-    pool.close()
-    pool.join()
-    
-    # Combine the intermediate results from temporary files
-    combined_data = []
-    while not result_queue.empty():
-        temp_file = result_queue.get()
-        with open(temp_file, "r") as temp_input_file:
-            card_info = json.load(temp_input_file)
-            combined_data.append(card_info)
-        # Remove the temporary file
-        os.remove(temp_file)
+    # Combine results
+    combined_data = [result for result in results if result]
     
     # Write the combined data to the data lake file
     data_lake_path = os.path.join(OUTPUT_DIRECTORY, DATA_LAKE_FILE)
@@ -159,4 +135,7 @@ if __name__ == "__main__":
         json.dump(combined_data, data_lake_output_file, indent=4)
     
     print("Card analysis and data lake update completed.")
+
+if __name__ == "__main__":
+    main()
 

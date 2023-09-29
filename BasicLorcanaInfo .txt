@@ -1,0 +1,343 @@
+Characters
+
+Text and Keywords
+
+“Playing” a character strictly refers to the act of exerting ink to place a character from your hand onto the board.
+
+Characters with bodyguard can only be challenged if exerted. If a character with bodyguard is not exerted, other non-bodyguard characters can be challenged.
+
+Characters with abilities that require them to exert do not also collect Lore on the same action. They can either perform the action (by exerting) or collect Lore (by exerting), but not both simultaneously. Some cards allow for character to be returned to ready status, allowing them to use their ability or safeguard them from opponent’s challenges.
+
+Pay attention to the wording for characters such as Prince Phillip, Dragonslayer compared to Cruella de Vil, Miserable as Usual or Flynn Rider, Charming Rogue. Prince Phillip's ability only activated when he is challenging other characters. Cruella de Vil and Flynn Rider have abilities that only activate if they are being challenged.
+
+Evasive characters can challenge non-evasive characters in addition to other evasive characters.
+
+Characters with Reckless can sing if they are not already exerted. Since the turn player can take actions in any order they choose, they would be able to exert a character with reckless to sing a song. That character is no longer required to challenge as it is not able to. (Edit: added Sept. 6th)
+
+Characters will Ward are still affected by cards that do not 'choose' characters. For example, Be Prepared would banish any characters in play with Ward and Grab Your Sword would damage characters in play with Ward. (Edit: added Sept. 6th)
+
+Shifted Characters
+
+Shifted characters can be played as normal, or with a discounted cost if they are placed on top of another character with the same name.
+
+You can place a shifted character on top of another character with the same name, but different color. For example, Mickey Mouse, Artful Rogue can be shifted onto Mickey Mouse, True Friend.
+
+If a character is shifted onto another character, the shifted character will assume all of the existing conditions of the character it is placed on top of, such as being exerted or damaged.
+
+If a character is shifted onto another character, the original character’s abilities, willpower, lore, etc. are no longer in effect.
+
+If a character is shifted onto another character, the shifted character can challenge or quest on the turn it was played as long as the previous character was also able to challenge or quest that turn (the previous character had been played on a prior turn, aka “its ink was dry”)
+
+Actions & Items
+
+Songs
+
+Characters cannot sing songs on the turn in which they are played.
+
+Items
+
+Any items played will remain in play unless a card specifics states to remove item(s). Their initial cost (top-right of card) only needs to be paid the first time there are placed into play. Some items have additional costs to use and will indicate how much ink is required for each use.
+
+The exerting symbol on items helps to indicate if that item’s effect has been used already on this turn.
+
+You can control duplicate items simultaneously.
+
+A subtle detail – but could be helpful for distinguishing items and actions. Currently, all items have a catchphrase in the beginning of their effect, while actions do not.
+
+Gameplay
+
+Lore
+
+Players cannot have their lore reduced below 0.
+
+Inkwell
+
+When placing a card in the inkwell, you reveal it to your opponent (to confirm it is inkable), then place it facedown.
+
+You are not allowed to look at cards in the inkwell after they are placed.
+
+Some cards will allow you to place additional cards in your inkwell beyond the ‘once per turn’ game rules.
+
+Non-inkable cards can be placed into a player’s Inkwell as the result of a card effect (such as Mickey Mouse, Detective or Let It Go)
+
+Miscellaneous
+
+A turn represents the actions of just one player. If a card says “this turn”, its effects will last until the that player completes all of their actions. Once their opponent begins their turn, any “this turn” effects will be removed.
+
+“May” indicates optional effects and is not mandatory.
+
+There is no limit to the size of a player’s hand or inkwell.
+
+When a player attempts to draw (either by card effect or at the start of their turn) but has no cards remaining in their deck, they lose (regardless of who has collected more Lore).
+
+The turn player decides the sequence of card effect/actions if simultaneous effects are triggered.
+
+When activating card abilities to “look at the top x cards of your deck”, you do not need to reveal those specific cards to your opponent. You should ensure that all players can confirm the quantity of cards viewed, but not the identity.
+
+Characters with 0 strength can still challenge other characters.
+
+Specific Card Rulings
+
+Amber (Yellow)
+
+Cinderella, Gentle and Kind
+
+Cinderella can choose herself for her ability, A Wonderful Dream.
+
+Hades, King of Olympus
+
+Hades’ ability, Sinister Plot, does not count himself as it states “each other villain character”.
+
+Hades, Lord of the Underworld
+
+Hades’ ability, Well of Souls, is mandatory (unless no targets exist).
+
+Lefou, Bumbler
+
+Lefou’s ability, Loyal, does not stack. Lefou simply costs one ink if you have a character named Gaston in play. If you have two Gaston characters in play, Lefou will still cost one ink.
+
+Stitch, Carefree Surfer
+
+Stitch’s ability, Ohana, does not include itself. You must control at least two other characters in addition to Stitch in order to draw. Other copies of this card in play count.
+
+You can draw 0 or 2 cards when applying Stitch’s effect, but not 1.
+
+Stitch, Rock Star
+
+Stitch’s ability, Adoring Fans, does not trigger when characters with reduced costs are played. If a character with 3 cost is played by using Lantern to reduce its cost to 2, Stitch’s effect will not trigger.
+
+Just In Time
+
+Since actions resolve immediately, the character must be played immediately.
+
+Similar to the ruling on Stitch, Rock Star, only a character with printed cost of 5 or less can be played using this action.
+
+You Have Forgotten Me
+
+If an opponent only has 1 card in hand when this action is played, they will discard that card and the action will resolve. The opponent does not discard the next card is added to their hand (by effect or draw).
+
+Lantern
+
+You can stack the effects of multiple copies of Lantern to reduce the next character you play by more than 1 (but not less than 0).
+
+Amethyst (Purple)
+
+Anna, Heir to Arendelle
+
+Using Anna’s ability, Loving Heart, to choose an opposing character that is already in ‘ready’ state will have no effect on that character during the opponent’s next turn.
+
+Elsa, Spirit of Winter
+
+You can use Elsa’s Deep Freeze ability to select characters that are already exerted. They can’t ready at the start of the opponent’s next turn.
+
+Mickey Mouse, Wayward Sorcerer
+
+If you have multiple copies of this character in play, their Animated Broom abilities will stack and can reduce Broom characters’ cost to 0 (but not below 0).
+
+Pascal, Rapunzel’s Companion
+
+Pascal’s Camouflage ability is an ongoing ability that can be activated or removed if the conditions are met or changed. If Pascal becomes the only character on your side of play, it will lose Evasive.
+
+Friends on the Other Side
+
+You must draw exactly two cards.
+
+Emerald (Green)
+
+Beast, Wolfsbane
+
+Beast’s ability, Roar, is not optional and will exert all opposing damaged characters even if you do not wish for them to be exerted (such as characters with bodyguard).
+
+Cheshire Cat, Not All There
+
+Cheshire Cat’s ability, Lose Something, is mandatory.
+
+Genie, Powers Unleashed
+
+Genie’s ability, Phenomenal Cosmic Power, is effective immediately and resolves if no actions are subsequently played (this is my understanding based on similar card rulings)
+
+John Silver, Alien Pirate
+
+John Silver’s ability, Pick Your Fights, can be applied to multiple characters and can be changed each time it is applied.
+
+Steal from the Rich
+
+This ability will trigger each time one of your characters quests during the turn and can be triggered by the same character more than once on a given turn.
+
+Sudden Chill
+
+If an opponent has no cards in hand when this action is played, the action will resolve. The opponent does not discard the next card is added to their hand (by effect or draw).
+
+Dr. Facilier’s Cards
+
+You can stack the effects of multiple copies of Dr. Facilier’s Cards to reduce the next action you play by more than 1 (but not less than 0).
+
+Ruby (Red)
+
+Aladdin, Heroic Outlaw
+
+Aladdin’s ability, Daring Exploit, will trigger even if Aladdin is banished during the challenge.
+
+Captain Hook, Ruthless Pirate
+
+Once Captain Hook is banished, it’s ability, You Coward!, will not be applied to characters and any opposing characters that had gained Reckless from the ability will no longer be considered “Reckless” (can’t quest and must challenge if able)
+
+Mulan, Imperial Soldier
+
+Mulan’s ability, Lead by Example, applies to all other characters and does not grant Mulan +1 Lore for this turn. Other copies of Mulan in play would receive +1 Lore if this ability is triggered.
+
+Mulan’s ability, Lead by Example, will trigger even if Mulan is banished during the challenge.
+
+Be Prepared
+
+All characters in play are banished, even the player who plays/sings Be Prepared.
+
+Characters with Ward are still banished, as this card does not “choose” those characters.
+
+Sapphire (Blue)
+
+Aurora, Dreaming Guardian
+
+Aurora’s ability, Protective Embrace, applies to all other characters and does not apply to herself. A second Aurora, Dreaming Guardian would gain Ward (as well as give Ward to the first Aurora, Dreaming Guardian)
+
+Belle, Strange But Special
+
+You can only place an additional inkable card using Belle’s ability, Read a Book. Noninkable cards cannot be placed into the inkwell using this ability.
+
+Gramma Tala, Storyteller
+
+Gramma Tala’s ability, I Will Be With You, is not triggered if Gramma Tala is discarded.
+
+Hades, Infernal Schemer
+
+If a shifted character is chosen for Hades’ ability, Is There a Downside to This, both the shifted character as well as the previous character (the one under the shifted character) will be placed into that opponent’s inkwell.
+
+Mickey Mouse, Detective
+
+The card placed into the inkwell by Mickey Mouse’s ability, Get a Clue, is not revealed to either player.
+
+Robin Hood, Unrivaled Archer
+
+Robin Hood’s ability, Feed the Poor, is mandatory if the criteria is met. If both player’s hands are equal in size, the criteria is not met.
+
+Let It Go
+
+If a shifted character is chosen for Let it Go, both the shifted character as well as the previous character (the one under the shifted character) will be placed into that opponent’s inkwell.
+
+One Jump Ahead
+
+The card placed into the inkwell is not revealed to either player.
+
+Coconut Basket
+
+The chosen character can change each time this item’s effect is triggered.
+
+Eye of the Fates
+
+You can stack the effects of multiple copies of Eye of the Fates to grant a character additional Lore for this turn.
+
+Characters will Reckless are still unable to quest, even if granted Lore through this effect.
+
+Fishbone Quill
+
+Non-inkable cards can be placed into a player’s inkwell using Fishbone Quill’s ability, Go Ahead and Sign.
+
+Steel (Grey)
+
+Mickey Mouse, Musketeer
+
+Mickey Mouse’s ability, All for One, is an ongoing ability that will be removed from other characters when Mickey Mouse is banished.
+
+Starkey, Hook’s Henchman
+
+Starkey’s ability, Aye Aye Captain, does not stack. Multiple copies of Captain Hook or Captain in play will only grant Starkey +1 Lore.
+
+Beast’s Mirror
+
+You cannot activate multiple Beast Mirror effective simultaneously (to meet the “no cards in hand” criteria).
+
+The previous model used in this conversation is unavailable. We've switched you to the latest default model.
+ChatGPT
+
+2 / 2
+
+Here's a logical structure for organizing the provided information:
+
+Card Information and Gameplay
+Characters
+
+Characters can be played from your hand onto the board.
+Characters with the "Bodyguard" trait can only be challenged when exerted.
+Characters with abilities requiring exertion cannot collect Lore on the same action.
+Some cards allow characters to return to ready status.
+Pay attention to specific character abilities and their conditions (e.g., Prince Phillip, Cruella de Vil, Flynn Rider).
+Evasive characters can challenge both evasive and non-evasive characters.
+Characters with "Reckless" can sing if not already exerted.
+Shifted Characters
+
+Shifted characters can be played normally or with a discounted cost when placed on top of the same-name character.
+Shifted characters assume existing conditions of the character they're placed on.
+Shifted character abilities replace the original character's abilities.
+Shifted characters can challenge or quest if the previous character could.
+Actions & Items
+
+Characters cannot sing songs on the turn they are played.
+Items remain in play unless specified otherwise.
+Initial item cost only needs to be paid once.
+Some items have additional ink costs for each use.
+Exerting symbol on items indicates whether the effect has been used.
+Duplicate items can be controlled simultaneously.
+Gameplay Rules
+Lore
+
+Players' lore cannot be reduced below 0.
+Inkwell
+
+Placing a card in the inkwell involves revealing it to the opponent and placing it facedown.
+Cards in the inkwell cannot be viewed after placement.
+Some cards may allow additional inkwell placements beyond the usual limit.
+Miscellaneous
+
+A "turn" represents one player's actions.
+"May" indicates optional effects.
+No limit to hand or inkwell size.
+Running out of cards in the deck results in a loss.
+Turn player decides the sequence of simultaneous effects.
+When looking at cards in the deck, specific cards don't need to be revealed.
+Specific Card Rulings
+Amber (Yellow)
+
+Cinderella's ability can target herself.
+Hades' "Sinister Plot" ability doesn't count himself.
+Lefou's "Loyal" ability doesn't stack.
+Stitch's "Ohana" ability requires two other characters.
+Stitch's "Ohana" allows drawing 0 or 2 cards.
+Stitch's "Adoring Fans" doesn't trigger for reduced-cost characters.
+"Just In Time" ability must be played immediately.
+"Just In Time" only works with characters with a printed cost of 5 or less.
+"You Have Forgotten Me" affects opponents with 1 card in hand.
+"Lantern" effects can stack for greater reductions.
+Ruby (Red)
+
+Aladdin's ability triggers even if he's banished during the challenge.
+Captain Hook's "You Coward!" ability won't apply post-banishment.
+Mulan's ability triggers even if she's banished during the challenge.
+"Be Prepared" banishes all characters, including those with Ward.
+Sapphire (Blue)
+
+Aurora's "Protective Embrace" doesn't apply to herself.
+Belle's "Read a Book" can only place inkable cards.
+Gramma Tala's "I Will Be With You" is not triggered if discarded.
+Hades' "Is There a Downside to This" affects both shifted and underlying characters.
+Mickey Mouse's "Get a Clue" card isn't revealed to players.
+Robin Hood's "Feed the Poor" ability is mandatory.
+"Let It Go" can affect both shifted and underlying characters.
+"One Jump Ahead" card isn't revealed.
+"Coconut Basket" allows changing the chosen character.
+"Eye of the Fates" effects can stack for additional Lore.
+"Fishbone Quill" can place non-inkable cards in the inkwell.
+Steel (Grey)
+
+Mickey Mouse's "All for One" is removed when he's banished.
+Starkey's "Aye Aye Captain" ability doesn't stack.
+You cannot activate multiple "Beast's Mirror" effects simultaneously.

@@ -3,7 +3,9 @@ import subprocess
 import requests
 import json
 import logging
+import re
 from bs4 import BeautifulSoup
+from textblob import TextBlob
 
 # URLs to scrape
 URLS = [
@@ -17,14 +19,6 @@ SAVE_DIRECTORY = os.path.dirname(os.path.abspath(__file__))
 
 # Set up logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
-
-def setup_virtual_environment():
-    if not os.path.isdir("venv"):
-        logging.info("Setting up virtual environment...")
-        subprocess.run(["python3", "-m", "venv", "venv"], check=True)
-        subprocess.run(["venv/bin/pip", "install", "requests", "beautifulsoup4"], check=True)
-    else:
-        logging.info("Virtual environment already set up.")
 
 def scrape_website(url):
     headers = {
@@ -40,7 +34,6 @@ def scrape_website(url):
         return None
 
 def extract_data_from_soup(soup):
-    # Extract textual content
     paragraphs = [p.text for p in soup.find_all('p')]
     return paragraphs
 
@@ -49,9 +42,24 @@ def clean_and_normalize_data(data):
     cleaned_data = [item for item in cleaned_data if item.strip() != ""]
     return cleaned_data
 
+def clean_and_normalize_text(text):
+    cleaned_text = re.sub(r'[^a-zA-Z0-9\s]', '', text)
+    cleaned_text = re.sub(r'\s+', ' ', cleaned_text).strip().lower()
+    return cleaned_text
+
+def perform_sentiment_analysis(text):
+    blob = TextBlob(text)
+    sentiment = blob.sentiment.polarity
+    return sentiment
+
+def keyword_based_analysis(text):
+    keywords = ["card", "deck", "rules", "player", "strategy", "turn"]
+    for keyword in keywords:
+        if keyword in text:
+            return True
+    return False
+
 def main():
-    setup_virtual_environment()
-    
     all_data = []
     for url in URLS:
         soup = scrape_website(url)
@@ -61,7 +69,15 @@ def main():
     
     cleaned_data = clean_and_normalize_data(all_data)
     
-    with open(os.path.join(SAVE_DIRECTORY, "LorcanaRules.JSON"), "w") as file:
+    for rule in cleaned_data:
+        cleaned_text = clean_and_normalize_text(rule)
+        sentiment = perform_sentiment_analysis(cleaned_text)
+        keyword_based_result = keyword_based_analysis(cleaned_text)
+        rule["cleaned_text"] = cleaned_text
+        rule["sentiment"] = sentiment
+        rule["keyword_based"] = keyword_based_result
+
+    with open(os.path.join(SAVE_DIRECTORY, "CleanLorcanaRules.JSON"), "w") as file:
         json.dump(cleaned_data, file, indent=4)
 
     logging.info("Script completed successfully!")

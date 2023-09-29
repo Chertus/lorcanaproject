@@ -1,60 +1,81 @@
 import tensorflow as tf
 import tensorflow_datasets as tfds
+import os
+import logging
 
-# Define the dataset name and version
-dataset_name = "your_dataset_name"
-dataset_version = "your_dataset_version"
+# Constants
+DATASET_NAME = "Lorcana"
+DATA_DIR = "/path/to/dataset_directory"
+SAVED_MODEL_DIR = "/path/to/saved_model_directory"
+PRETRAINED_MODEL_DIR = "/path/to/pretrained_model_directory"
 
-# Define the directory where you want to save the dataset
-data_dir = "/path/to/dataset_directory"
+# Set up logging
+logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
 # Ensure TensorFlow and TFDS are updated
-!pip install --upgrade tensorflow tensorflow-datasets
+subprocess.run(["pip", "install", "--upgrade", "tensorflow", "tensorflow-datasets"], check=True)
 
-# Load the dataset with a specific subsplit
-# Split the dataset into 60% training and 40% testing
-(train_data, test_data), info = tfds.load(
-    dataset_name,
-    split=[f"train[{60}%:]{dataset_version}", f"train[:{60}%]{dataset_version}"],
-    data_dir=data_dir,
-    as_supervised=True,
-    with_info=True,
-)
+def get_latest_dataset_version():
+    """Get the latest version of the dataset."""
+    versions = tfds.builder(DATASET_NAME).versions
+    latest_version = str(versions[-1])
+    return latest_version
 
-# Define and compile your TensorFlow model here
-# Example:
-# model = tf.keras.Sequential([
-#     tf.keras.layers.Flatten(input_shape=(28, 28)),
-#     tf.keras.layers.Dense(128, activation='relu'),
-#     tf.keras.layers.Dropout(0.2),
-#     tf.keras.layers.Dense(10)
-# ])
-#
-# model.compile(optimizer='adam',
-#               loss=tf.keras.losses.SparseCategoricalCrossentropy(from_logits=True),
-#               metrics=['accuracy'])
+def load_dataset():
+    """Load the dataset with a specific subsplit."""
+    dataset_version = get_latest_dataset_version()
+    logging.info(f"Using dataset version: {dataset_version}")
 
-# Train your model using the training data
-# Example:
-# history = model.fit(train_data, epochs=5, validation_data=test_data)
+    (train_data, test_data), info = tfds.load(
+        DATASET_NAME,
+        split=[f"train[{60}%:]{dataset_version}", f"train[:{60}%]{dataset_version}"],
+        data_dir=DATA_DIR,
+        as_supervised=True,
+        with_info=True,
+    )
+    return train_data, test_data, info
 
-# Evaluate your model using the test data
-# Example:
-# test_loss, test_accuracy = model.evaluate(test_data, verbose=2)
-# print(f"Test accuracy: {test_accuracy}")
+def train_and_evaluate_model(train_data, test_data):
+    """Train and evaluate the model."""
+    # Define and compile your TensorFlow model
+    model = tf.keras.Sequential([
+        tf.keras.layers.Flatten(input_shape=(28, 28)),
+        tf.keras.layers.Dense(128, activation='relu'),
+        tf.keras.layers.Dropout(0.2),
+        tf.keras.layers.Dense(10)
+    ])
 
-# Save your trained model as a SavedModel
-model.save("/path/to/saved_model_directory")
+    model.compile(optimizer='adam',
+                  loss=tf.keras.losses.SparseCategoricalCrossentropy(from_logits=True),
+                  metrics=['accuracy'])
 
-# Load your SavedModel
-loaded_model = tf.keras.models.load_model("/path/to/saved_model_directory")
+    # Train the model
+    history = model.fit(train_data, epochs=5, validation_data=test_data)
 
-# Make predictions using the loaded model
-# Example:
-# predictions = loaded_model.predict(test_data)
+    # Evaluate the model
+    test_loss, test_accuracy = model.evaluate(test_data, verbose=2)
+    logging.info(f"Test accuracy: {test_accuracy}")
 
-# Optionally, you can perform further operations with the loaded model
+    return model
 
-# Note: Replace "your_dataset_name" and "your_dataset_version" with the actual dataset name and version,
-# and provide the correct paths for data_dir, saved_model_directory, and any other paths you need.
+def main():
+    if not os.path.exists(SAVED_MODEL_DIR):
+        os.makedirs(SAVED_MODEL_DIR)
+
+    # Load the dataset
+    train_data, test_data, info = load_dataset()
+
+    # Check if a trained model already exists
+    if os.listdir(SAVED_MODEL_DIR):
+        logging.info("Using the existing trained model.")
+        model = tf.keras.models.load_model(SAVED_MODEL_DIR)
+    else:
+        logging.info("Training a new model.")
+        model = train_and_evaluate_model(train_data, test_data)
+        model.save(SAVED_MODEL_DIR)
+
+    # Optionally, you can perform further operations with the loaded model
+
+if __name__ == "__main__":
+    main()
 
