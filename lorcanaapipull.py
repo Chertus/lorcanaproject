@@ -1,76 +1,64 @@
-import os
-import subprocess
 import requests
 import json
-import logging
-from bs4 import BeautifulSoup
-from difflib import SequenceMatcher
+import os
 
-# Constants
-BASE_API_URL = "https://api.lorcana-api.com/cards/"
-SAVE_DIRECTORY = os.path.dirname(os.path.abspath(__file__))
+# Define the API base URL
+api_base_url = "https://api.lorcana-api.com/strict/"
 
-# Set up logging
-logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+# Read the list of card names from ListofLorcanaCards.txt
+with open("ListofLorcanaCards.txt", "r") as file:
+    card_names = file.read().splitlines()
 
-def setup_environment():
-    if not os.path.isfile("run_lorcana.sh") or not os.access("run_lorcana.sh", os.X_OK):
-        subprocess.run(["python3", "-m", "venv", "venv"], check=True)
-        with open("run_lorcana.sh", "w") as f:
-            f.write("#!/bin/bash\n")
-            f.write("source venv/bin/activate\n")
-            f.write("python3 lorcanaapipull.py\n")
-        os.chmod("run_lorcana.sh", 0o755)
-        subprocess.run(["venv/bin/pip", "install", "requests", "beautifulsoup4", "pytesseract", "Pillow"], check=True)
+# Initialize a dictionary to store card data
+all_card_data = {}
 
-def adaptive_scrape_card_data_from_website(url):
-    try:
-        response = requests.get(url)
-        response.raise_for_status()
-        soup = BeautifulSoup(response.content, 'html.parser')
-        potential_card_elements = soup.find_all(size=lambda value: value and int(value) > 3)
-        return [{"name": card_element.text.strip()} for card_element in potential_card_elements]
-    except requests.RequestException as e:
-        logging.error(f"Error scraping {url}: {e}")
-        return []
+# Create a directory to store card images
+image_dir = "card_images"
+os.makedirs(image_dir, exist_ok=True)
 
-def string_similarity(a, b):
-    return SequenceMatcher(None, a, b).ratio()
+# Loop through each card name, fetch the data, and store it in the dictionary
+for card_name in card_names:
+    # Replace spaces with underscores and convert to lowercase
+    formatted_card_name = card_name.replace(" ", "_").lower()
+    
+    # Make the API request
+    url = f"{api_base_url}{formatted_card_name}"
+    response = requests.get(url)
+    
+    # Check if the request was successful (status code 200)
+    if response.status_code == 200:
+        card_data = response.json()
+        
+        # Verify that both card text and images are present before saving
+        if "body-text" in card_data and "image-urls" in card_data:
+            # Create a subfolder for each card
+            card_dir = os.path.join(image_dir, formatted_card_name)
+            os.makedirs(card_dir, exist_ok=True)
+            
+            # Download the card image and save it in the card's subfolder
+            image_url = card_data.get("image-urls", {}).get("large")
+            if image_url:
+                image_extension = image_url.split(".")[-1]
+                image_filename = f"{formatted_card_name}.{image_extension}"
+                image_path = os.path.join(card_dir, image_filename)
+                with open(image_path, "wb") as image_file:
+                    image_file.write(requests.get(image_url).content)
+                card_data["image_filename"] = image_path
+            
+            # Save the card data in a JSON file within the card's subfolder
+            card_data_path = os.path.join(card_dir, "card_data.json")
+            with open(card_data_path, "w") as json_file:
+                json.dump(card_data, json_file, indent=4)
+            
+            all_card_data[formatted_card_name] = card_data
+        else:
+            print(f"Card data for {card_name} is incomplete and will not be saved.")
+    else:
+        print(f"Failed to fetch data for {card_name}")
 
-def fetch_card_data_from_api(card_name):
-    endpoint = BASE_API_URL + card_name
-    try:
-        response = requests.get(endpoint)
-        response.raise_for_status()
-        return response.json()
-    except requests.RequestException as e:
-        logging.error(f"Failed to retrieve data for {card_name}: {e}")
-        return None
+# Save the collected card data as a JSON file
+with open("lorcana_card_data.json", "w") as json_file:
+    json.dump(all_card_data, json_file, indent=4)
 
-def ai_cross_examine(api_data, scraped_data):
-    for card in api_data:
-        similarities = [string_similarity(card['name'].lower(), scraped_card['name'].lower()) for scraped_card in scraped_data]
-        if max(similarities) < 0.8:
-            logging.warning(f"Potential data discrepancy for card: {card['name']}")
-
-def main():
-    setup_environment()
-
-    websites = ["https://lorcania.com/cards", "https://lorcanaplayer.com/cards/"]
-    scraped_card_data = [data for website in websites for data in adaptive_scrape_card_data_from_website(website)]
-
-    all_card_data = [data for card in scraped_card_data if (data := fetch_card_data_from_api(card['name']))]
-
-    ai_cross_examine(all_card_data, scraped_card_data)
-
-    with open(os.path.join(SAVE_DIRECTORY, "cleaned_card_data.json"), "w") as file:
-        json.dump(all_card_data, file, indent=4)
-
-    with open(os.path.join(SAVE_DIRECTORY, "data_lake.json"), "w") as file:
-        json.dump(all_card_data, file, indent=4)
-
-    logging.info("Script completed successfully!")
-
-if __name__ == "__main__":
-    main()
+print("Card data and images have been fetched and saved with verification.")
 
